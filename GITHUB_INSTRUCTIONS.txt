@@ -1,0 +1,34 @@
+PLEASE READ: INSTRUCTIONS TO UPLOAD TO GITHUB
+==============================================
+
+Since I cannot directly access your GitHub credentials or web browser to push the code for you, you need to execute the following commands in your terminal to upload this project.
+
+1.  Open your Terminal (PowerShell or Git Bash).
+2.  Navigate to the project folder:
+    cd "c:\Users\Admin\OneDrive\Máy tính\code\GraduationThesis"
+
+3.  Initialize Git:
+    git init
+
+4.  Add all files:
+    git add .
+
+5.  Commit the files:
+    git commit -m "Initial commit of Graduation Thesis: Qwen-IRG Project"
+
+6.  Create a new repository on GitHub:
+    *   Go to https://github.com/new
+    *   Name it (e.g., "Qwen-IRG-Thesis").
+    *   Do NOT initialize with README (we already have one).
+    *   Click "Create repository".
+
+7.  Link your local repository to GitHub:
+    (Replace <YOUR-USERNAME> with your actual GitHub username and <REPO-NAME> with the name you chose)
+
+    git remote add origin https://github.com/<YOUR-USERNAME>/<REPO-NAME>.git
+
+8.  Push the code:
+    git branch -M main
+    git push -u origin main
+
+Once done, your project and the professional README will be live on GitHub.
