@@ -23,7 +23,7 @@ By integrating CLIP feature awareness and multi-iteration reasoning, the model h
 
 ## Repository Structure
 
-*   **code/**
+*   **code**
     *   `irg-1-dataset-generation.ipynb`: Jupyter notebook for Phase 1. Handles the generation of the comprehensive training dataset, simulating CLIP features and creating reasoning chains.
     *   `irg-2-qwen-finetuning.ipynb`: Jupyter notebook for Phase 2. Implements the fine-tuning pipeline for Qwen using PEFT/LoRA, including data preparation and training loop configuration.
     *   `irg-imagegeneration.ipynb`: Notebook for Phase 3. Demonstrates the image generation process using the fine-tuned model's guidance.
