@@ -78,4 +78,4 @@ This research makes use of the Qwen language model series by Alibaba Cloud and t
 
 ## License
 
-This project is released for academic and research purposes.
+Copyright (c) 2025 Ngô Anh Dũng. This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. You may not use this work for commercial purposes.
