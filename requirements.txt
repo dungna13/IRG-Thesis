@@ -1,0 +1,16 @@
+# IRG-Thesis Dependencies
+
+torch>=2.0.0
+diffusers>=0.25.0
+clip @ git+https://github.com/openai/CLIP.git
+google-generativeai>=0.8.0
+fastapi
+uvicorn
+python-dotenv
+tqdm
+Pillow>=10.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+tqdm
+requests
