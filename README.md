@@ -209,10 +209,17 @@ Initiates the multi-agent refinement pipeline for a given text prompt.
 | | Phase 1 (Thesis) | Phase 2 (Production) |
 |---|---|---|
 | **LLM** | Qwen-2.5 3B (LoRA fine-tuned) | Google Gemini API |
-| **Image Gen** | Stable Diffusion XL (local) | Stability AI SDXL API |
+| **Image Gen** | Stable Diffusion XL (local) | Stability AI `stable-diffusion-xl-1024-v1-0` |
 | **RAG** | — | sentence-transformers + cosine similarity |
 | **API** | — | FastAPI + Uvicorn (async) |
 | **Hardware** | Dual NVIDIA T4 (Kaggle) | Cloud APIs (no GPU needed) |
+
+---
+
+## Models Used
+
+[![Qwen](https://img.shields.io/badge/Phase%201-Qwen--2.5--3B%20(LoRA)-orange?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHoiLz48L3N2Zz4=)](https://huggingface.co/Qwen/Qwen2.5-3B)
+[![SDXL](https://img.shields.io/badge/Phase%202-stable--diffusion--xl--1024--v1--0-blueviolet?logo=stability-ai)](https://platform.stability.ai/docs/api-reference)
 
 ---
 
