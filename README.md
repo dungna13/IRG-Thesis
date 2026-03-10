@@ -117,7 +117,7 @@ IRG-Thesis/
 
 ## Setup & Installation
 
-### Option 1: Docker (Fastest & Cleanest) 🐳
+### Option 1: Docker (Fastest & Cleanest) 
 The project is fully containerized and published to the **GitHub Container Registry (GHCR)**.
 
 #### 1. Login to GitHub Container Registry
