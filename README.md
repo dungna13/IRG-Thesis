@@ -1,6 +1,6 @@
 # IRG: Iterative Reasoning-Generation for Text-to-Image Synthesis
 
-> A production-grade Multi-Agent AI system that applies closed-loop feedback refinement to Text-to-Image generation via cloud APIs.
+> A closed-loop multi-agent AI system that iteratively refines Text-to-Image generation through autonomous reasoning and quality evaluation.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688)](https://fastapi.tiangolo.com/)
@@ -10,15 +10,48 @@
 
 ---
 
-## Overview
+## Abstract
 
 Standard text-to-image models are single-shot systems — they generate an image and stop. **IRG** replaces that with an autonomous **Think → Generate → Critique → Refine** loop, where multiple AI agents collaborate to produce progressively higher-quality outputs.
 
-The system is built as a REST API service and is designed for production deployment. It demonstrates practical AI engineering skills including: multi-agent orchestration, vector-based RAG, asynchronous API design, and cloud AI integration.
+The project has evolved through two phases: an academic thesis foundation using fine-tuned local models (Phase 1), and a fully productionized multi-agent cloud API system (Phase 2).
 
 ---
 
-## System Architecture
+## Phase 1: Academic Thesis (Qwen-IRG)
+
+The foundational research phase involved fine-tuning a small-parameter LLM to perform visual diagnostics on consumer-grade hardware.
+
+### Technical Approach
+
+- **Feature-Aware Diagnostics**: Translates CLIP-extracted statistical features (mean, variance, max) into structured textual descriptions the LLM can reason about.
+- **Low-Rank Adaptation (LoRA)**: Fine-tuned Qwen-2.5 3B on 4,000 synthetic reasoning traces to master object decomposition, spatial reasoning, and attribute binding.
+- **Adaptive Denoising Schedule**: Dynamically decaying denoising with linearly increasing guidance scales to prevent semantic drift during Img2Img inference.
+
+### Experimental Results (Phase 1)
+
+Benchmarked against standard single-shot SDXL generation on compositionally complex prompts:
+
+| Metric | Baseline (SDXL) | IRG 2-iter | IRG 4-iter |
+|---|---|---|---|
+| Compositional Accuracy | 0.3497 | **0.3768** (+7.74%) | 0.3651 |
+| Aesthetic Score | 0.612 | 0.624 | **0.631** (+3.08%) |
+
+> **Finding**: 2-iteration loop yields the best compositional accuracy; 4 iterations maximizes aesthetic quality.
+
+### Phase 1 Reproduction
+
+1. Navigate to `Kaggle_IRG_Thesis.ipynb` for cloud execution (recommended: dual T4 GPU on Kaggle).
+2. Execute notebook sections in order: Dataset Generation → LoRA Fine-tuning → Inference → Benchmark.
+3. Requires 16GB+ VRAM for 4-bit quantized Qwen-2.5-3B and FP16 SDXL coexistence.
+
+---
+
+## Phase 2: Production Multi-Agent System (Gemini-IRG)
+
+The architecture was elevated to overcome the contextual limitations of small-parameter models, transitioning to a fully autonomous multi-agent cloud API service.
+
+### System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -68,30 +101,6 @@ The system is built as a REST API service and is designed for production deploym
 | **IRGWorkflow** | `src/core/workflow.py` | Orchestrates the closed-loop multi-agent pipeline |
 | **API Layer** | `src/api/routes.py` | FastAPI REST endpoints (async, non-blocking) |
 
-### Agent Interaction Flow
-
-```
-Iteration N:
-  ExpertAgent → analyzes CLIP(mean, std, max) → produces refined_prompt
-  ImageService → refines image via Img2Img API
-  CriticAgent  → scores result [0.0–1.0]
-               → ACCEPT (score ≥ 0.75): early stop, return result
-               → REFINE (score < 0.75): proceed to Iteration N+1
-```
-
----
-
-## Experimental Results
-
-Benchmarked against standard single-shot SDXL generation on compositionally complex prompts:
-
-| Metric | Baseline (SDXL) | IRG 2-iter | IRG 4-iter |
-|---|---|---|---|
-| Compositional Accuracy | 0.3497 | **0.3768** (+7.74%) | 0.3651 |
-| Aesthetic Score | 0.612 | 0.624 | **0.631** (+3.08%) |
-
-> **Finding**: The 2-iteration loop yields the best compositional accuracy; 4 iterations maximizes aesthetic quality. CriticAgent's early stopping prevents over-refinement and semantic drift.
-
 ---
 
 ## Project Structure
@@ -112,19 +121,19 @@ IRG-Thesis/
 │   │   └── routes.py             # FastAPI endpoints
 │   └── config.py                 # Centralized configuration
 ├── dataset_final_v3.csv          # 244 historical refinement cases (RAG corpus)
-├── Kaggle_IRG_Thesis.ipynb       # Cloud notebook for data generation
-├── main.py                       # Server entry point
+├── Kaggle_IRG_Thesis.ipynb       # Phase 1: cloud notebook for fine-tuning & data gen
+├── main.py                       # Phase 2: server entry point
 ├── requirements.txt
 └── .env                          # API keys (not committed)
 ```
 
 ---
 
-## Setup & Installation
+## Setup & Installation (Phase 2)
 
 ### Prerequisites
 - Python >= 3.10
-- API keys for [Google Gemini](https://aistudio.google.com/app/apikey) and [Stability AI](https://platform.stability.ai/)
+- API keys: [Google Gemini](https://aistudio.google.com/app/apikey) and [Stability AI](https://platform.stability.ai/)
 
 ### 1. Clone & Install
 
@@ -150,7 +159,7 @@ GEMINI_MODEL=gemini-2.0-flash
 python main.py
 ```
 
-Server starts at `http://localhost:8000`. Interactive API docs available at `http://localhost:8000/docs`.
+Interactive API docs: `http://localhost:8000/docs`
 
 ---
 
@@ -178,12 +187,6 @@ Initiates the multi-agent refinement pipeline for a given text prompt.
   "execution_time_seconds": 14.3,
   "iterations_summary": [
     {
-      "iteration": 0,
-      "issues": "none",
-      "actions": "none",
-      "refined_prompt": "A photo of a cat..."
-    },
-    {
       "iteration": 1,
       "issues": "[std:High, max:Blown]",
       "actions": "Apply blur filter, reduce highlights",
@@ -197,24 +200,24 @@ Initiates the multi-agent refinement pipeline for a given text prompt.
 }
 ```
 
-> **Note**: The `total_iterations` may be less than the requested value if `CriticAgent` accepts the quality early.
+> `total_iterations` may be less than requested if `CriticAgent` accepts quality early.
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| LLM Reasoning | Google Gemini API |
-| Image Generation | Stability AI SDXL 1.0 |
-| Vector RAG | `sentence-transformers` (all-MiniLM-L6-v2) |
-| API Framework | FastAPI + Uvicorn (async) |
-| Image Analysis | CLIP (ViT-B/32) — via Pillow/NumPy |
+| | Phase 1 (Thesis) | Phase 2 (Production) |
+|---|---|---|
+| **LLM** | Qwen-2.5 3B (LoRA fine-tuned) | Google Gemini API |
+| **Image Gen** | Stable Diffusion XL (local) | Stability AI SDXL API |
+| **RAG** | — | sentence-transformers + cosine similarity |
+| **API** | — | FastAPI + Uvicorn (async) |
+| **Hardware** | Dual NVIDIA T4 (Kaggle) | Cloud APIs (no GPU needed) |
 
 ---
 
 ## License
 
-This project is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — for academic and non-commercial use only.
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — academic and non-commercial use only.
 
 Copyright © 2025 Ngô Anh Dũng.
