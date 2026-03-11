@@ -47,38 +47,38 @@ The architecture was elevated to a fully autonomous multi-agent cloud API servic
 ### System Architecture
 ```text
 ┌─────────────────────────────────────────────────────────┐
-│                   IRG Multi-Agent Pipeline               │
-│                                                          │
+│                   IRG Multi-Agent Pipeline              │
+│                                                         │
 │  User Prompt                                            │
-│       │                                                  │
-│       ▼                                                  │
+│       │                                                 │
+│       ▼                                                 │
 │  ┌──────────┐    ┌─────────────────────────────────┐    │
 │  │RAGService│───►│ Historical Cases (Vector Search) │   │
 │  └────┬─────┘    └─────────────────────────────────┘    │
-│       │ Context                                          │
-│       ▼                                                  │
-│  ┌─────────────┐                                         │
-│  │ ExpertAgent │ ◄── Google gemini-3.1-flash-lite-preview│
-│  │ (Analyzer)  │  Analyzes image stats, crafts refined   │
-│  └──────┬──────┘  prompt via few-shot RAG context        │
-│         │                                                │
-│         ▼                                                │
-│  ┌──────────────┐                                        │
-│  │ ImageService │ ◄── Stability stable-diffusion-xl-1024-v1.0
-│  │ (Generator)  │  Text2Img → Img2Img refinement         │
-│  └──────┬───────┘                                        │
-│         │                                                │
-│         ▼                                                │
-│  ┌─────────────┐                                         │
-│  │ CriticAgent │ ◄── Google gemini-3.1-flash-lite-preview│
-│  │  (Quality   │  Evaluates image stats → ACCEPT/REFINE  │
-│  │   Gate)     │  Early stopping if quality ≥ threshold  │
-│  └──────┬──────┘                                         │
-│         │                                                │
-│    ┌────┴────┐                                           │
-│    │  ACCEPT │──► Return refined image + metadata        │
-│    │  REFINE │──► Loop back to ExpertAgent               │
-│    └─────────┘                                           │
+│       │ Context                                         │
+│       ▼                                                 │
+│  ┌─────────────┐                                        │
+│  │ ExpertAgent │◄── Google gemini-3.1-flash-lite-preview│
+│  │ (Analyzer)  │ Analyzes image stats, crafts refined   │
+│  └──────┬──────┘ prompt via few-shot RAG context        │
+│         │                                               │
+│         ▼                                               │
+│  ┌──────────────┐                                       │
+│  │ ImageService │◄── stable-diffusion-xl-1024-v1.0      │
+│  │ (Generator)  │  Text2Img → Img2Img refinement        │
+│  └──────┬───────┘                                       │
+│         │                                               │
+│         ▼                                               │
+│  ┌─────────────┐                                        │
+│  │ CriticAgent │◄── Google gemini-3.1-flash-lite-preview│
+│  │  (Quality   │ Evaluates image stats → ACCEPT/REFINE  │
+│  │   Gate)     │ Early stopping if quality ≥ threshold  │
+│  └──────┬──────┘                                        │
+│         │                                               │
+│    ┌────┴────┐                                          │
+│    │  ACCEPT │──► Return refined image + metadata       │
+│    │  REFINE │──► Loop back to ExpertAgent              │
+│    └─────────┘                                          │
 └─────────────────────────────────────────────────────────┘
 ```
 
