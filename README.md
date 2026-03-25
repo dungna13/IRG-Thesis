@@ -13,7 +13,7 @@
 
 <br>
 
-https://github.com/user-attachments/assets/PLACEHOLDER_VIDEO_ID
+https://github.com/user-attachments/assets/0182f60d-0d8b-4cdd-a648-3194bda74b92
 
 *(Watch IRG autonomously diagnose and fix lighting/composition issues in real-time)*
 
@@ -38,20 +38,36 @@ https://github.com/user-attachments/assets/PLACEHOLDER_VIDEO_ID
 
 ## 🎬 Real-World Case Studies
 
-IRG doesn't just generate images; it **reasons** about them. Below is the technical breakdown of an autonomous session.
+IRG doesn't just generate images; it **reasons** about them. Below is the technical breakdown of autonomous sessions.
 
 ### 🏙️ Case study 01: Cyberpunk Metropolis
-> **Initial Prompt:** *"futuristic cyberpunk city at night, neon reflections on wet streets"*
+> **Prompt:** *"futuristic cyberpunk city at night, neon reflections on wet streets"*
 
-| Stage | Action | Technical Outcome |
+<details>
+<summary><b>🧠 Full Agent Reasoning Log (Click to expand)</b></summary>
+
+| Iteration | Status | Action |
 | :--- | :--- | :--- |
-| **Initial (Iter 0)** | Zero-shot generation | Initial composition established. |
-| **Refinement (Iter 1)** | **Expert-Agent diagnosis** | Detected `Max: 0.9935` (Blown Highlights). Added luminosity constraints. |
-| **Optimization (Iter 2)** | **Critic-Agent feedback** | Highlight roll-off attenuation to prevent clipping. |
-| **Final (Iter 3)** | **Success ✅** | Balanced HDR output with rich contrast and cinematic atmosphere. |
+| **Iter 0** | Initial | Refined Prompt: *"balanced atmospheric lighting, soft neon reflections, 8k"* |
+| **Iter 1** | `Max: 0.9935` | **Expert:** Detected Blown-High. Added luminosity constraints. |
+| **Iter 2** | `Max: 0.9922` | **Critic:** Highlight roll-off attenuation to prevent clipping. |
+| **Iter 3** | **Success ✅** | Balanced HDR output with rich contrast and cinematic atmosphere. |
+
+</details>
 
 ### 🐱 Case study 02: Macro Portrait (Ginger Cat)
-> **Refinement Logic:** The system detected pixel-level saturation on white fur and autonomously adjusted the *White Point* (-8%) while maintaining mid-tone depth.
+> **Prompt:** *"a fluffy orange cat sitting on a windowsill, warm afternoon sunlight"*
+
+<details>
+<summary><b>🧠 Full Agent Reasoning Log (Click to expand)</b></summary>
+
+| Iteration | Status | Operation |
+| :--- | :--- | :--- |
+| **Iter 0** | Initial | Refined Prompt: *"A photorealistic portrait, soft diffused sunlight, 8k"* |
+| **Iter 1** | `Max: 0.9922` | **Expert:** -5% global exposure, -8% white point to prevent clipping. |
+| **Iter 2** | **Success ✅** | **Critic:** Balanced exposure with controlled specular highlights. |
+
+</details>
 
 ---
 
@@ -130,7 +146,7 @@ IRG began as an academic thesis investigating the intersection of **Compositiona
 ## 🛠️ Tech Stack
 
 - **Core**: Python 3.11, FastAPI
-- **LLM**: Google Gemini 2.0 Flash Lite (Cost-Efficient Agentic Inference)
+- **LLM**: Google Gemini 2.0 Flash Lite
 - **T2I Model**: Stability AI SDXL 1.0
 - **Vector Search**: `sentence-transformers` (all-MiniLM-L6-v2)
 - **Frontend**: Gradio (Interactive Playground)
