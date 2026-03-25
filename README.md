@@ -36,7 +36,7 @@ No manual prompt engineering. No guessing. Just describe what you want.
 
 ### 📺 Video Demo
 
-https://github.com/user-attachments/assets/PLACEHOLDER_VIDEO_ID
+https://github.com/user-attachments/assets/video_demo.mp4
 
 > *Upload `assets/demo_video.mp4` to GitHub and replace the link above. GitHub will auto-embed it.*
 
