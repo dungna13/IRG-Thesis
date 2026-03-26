@@ -10,6 +10,7 @@
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![LLM](https://img.shields.io/badge/LLM-Gemini_3.1_Flash_Lite-4285F4?logo=google-gemini&logoColor=white)](https://ai.google.dev/)
 [![Generation](https://img.shields.io/badge/Gen-SDXL_1.0-blueviolet)](https://stability.ai/)
+[![Paper](https://img.shields.io/badge/📄%20Technical-Report-red)](docs/IRG_Thesis_Paper.pdf)
 
 <br>
 
