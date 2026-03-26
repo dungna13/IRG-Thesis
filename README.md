@@ -147,7 +147,7 @@ IRG began as an academic thesis investigating the intersection of **Compositiona
 ## Tech Stack
 
 - **Core**: Python 3.11, FastAPI
-- **LLM**: Google Gemini 2.0 Flash Lite
+- **LLM**: Google Gemini 3.1 Flash Lite
 - **T2I Model**: Stability AI SDXL 1.0
 - **Vector Search**: `sentence-transformers` (all-MiniLM-L6-v2)
 - **Frontend**: Gradio (Interactive Playground)
